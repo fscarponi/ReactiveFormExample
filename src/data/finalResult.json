@@ -5,67 +5,88 @@
         "from": "18:00:00",
         "to": "23:59:59.999999999",
         "zone": "Europe/Berlin",
-        "takeAway": true
+        "takeAway": true,
+        "delivery": true
       }
     ],
     "TUESDAY": [
       {
         "from": "10:00:00",
         "to": "15:00:00",
-        "zone": "Europe/Berlin"
+        "zone": "Europe/Berlin",
+        "takeAway": true,
+        "delivery": true
       },
       {
         "from": "18:00:00",
         "to": "23:59:59.999999999",
-        "zone": "Europe/Berlin"
+        "zone": "Europe/Berlin",
+        "takeAway": true,
+        "delivery": true
       }
     ],
     "WEDNESDAY": [
       {
         "from": "10:00:00",
         "to": "15:00:00",
-        "zone": "Europe/Berlin"
+        "zone": "Europe/Berlin",
+        "takeAway": true,
+        "delivery": true
       },
       {
         "from": "18:00:00",
         "to": "23:59:59.999999999",
-        "zone": "Europe/Berlin"
+        "zone": "Europe/Berlin",
+        "takeAway": true,
+        "delivery": true
       }
     ],
     "THURSDAY": [
       {
         "from": "10:00:00",
         "to": "15:00:00",
-        "zone": "Europe/Berlin"
+        "zone": "Europe/Berlin",
+        "takeAway": true,
+        "delivery": true
       },
       {
         "from": "18:00:00",
         "to": "23:59:59.999999999",
-        "zone": "Europe/Berlin"
+        "zone": "Europe/Berlin",
+        "takeAway": true,
+        "delivery": true
       }
     ],
     "FRIDAY": [
       {
         "from": "10:00:00",
         "to": "15:00:00",
-        "zone": "Europe/Berlin"
+        "zone": "Europe/Berlin",
+        "takeAway": true,
+        "delivery": true
       },
       {
         "from": "18:00:00",
         "to": "23:59:59.999999999",
-        "zone": "Europe/Berlin"
+        "zone": "Europe/Berlin",
+        "takeAway": true,
+        "delivery": true
       }
     ],
     "SUNDAY": [
       {
         "from": "10:00:00",
         "to": "15:00:00",
-        "zone": "Europe/Berlin"
+        "zone": "Europe/Berlin",
+        "takeAway": true,
+        "delivery": true
       },
       {
         "from": "18:00:00",
         "to": "23:59:59.999999999",
-        "zone": "Europe/Berlin"
+        "zone": "Europe/Berlin",
+        "takeAway": true,
+        "delivery": true
       }
     ]
   }
