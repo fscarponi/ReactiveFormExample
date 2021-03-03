@@ -1,0 +1,72 @@
+{
+  "openings": {
+    "MONDAY": [
+      {
+        "from": "18:00:00",
+        "to": "23:59:59.999999999",
+        "zone": "Europe/Berlin",
+        "takeAway": true
+      }
+    ],
+    "TUESDAY": [
+      {
+        "from": "10:00:00",
+        "to": "15:00:00",
+        "zone": "Europe/Berlin"
+      },
+      {
+        "from": "18:00:00",
+        "to": "23:59:59.999999999",
+        "zone": "Europe/Berlin"
+      }
+    ],
+    "WEDNESDAY": [
+      {
+        "from": "10:00:00",
+        "to": "15:00:00",
+        "zone": "Europe/Berlin"
+      },
+      {
+        "from": "18:00:00",
+        "to": "23:59:59.999999999",
+        "zone": "Europe/Berlin"
+      }
+    ],
+    "THURSDAY": [
+      {
+        "from": "10:00:00",
+        "to": "15:00:00",
+        "zone": "Europe/Berlin"
+      },
+      {
+        "from": "18:00:00",
+        "to": "23:59:59.999999999",
+        "zone": "Europe/Berlin"
+      }
+    ],
+    "FRIDAY": [
+      {
+        "from": "10:00:00",
+        "to": "15:00:00",
+        "zone": "Europe/Berlin"
+      },
+      {
+        "from": "18:00:00",
+        "to": "23:59:59.999999999",
+        "zone": "Europe/Berlin"
+      }
+    ],
+    "SUNDAY": [
+      {
+        "from": "10:00:00",
+        "to": "15:00:00",
+        "zone": "Europe/Berlin"
+      },
+      {
+        "from": "18:00:00",
+        "to": "23:59:59.999999999",
+        "zone": "Europe/Berlin"
+      }
+    ]
+  }
+}
