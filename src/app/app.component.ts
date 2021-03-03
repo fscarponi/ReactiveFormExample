@@ -25,10 +25,10 @@ export class AppComponent {
 
   private generateIntervalRuleControls(): FormGroup {
     return this.fb.group({
-      fromHours: [''],
-      fromMinutes: [''],
-      toHours: [''],
-      toMinutes: [''],
+      fromHours: [10],
+      fromMinutes: [30],
+      toHours: [14],
+      toMinutes: [30],
       takeAway: true,
       delivery: true
     });
