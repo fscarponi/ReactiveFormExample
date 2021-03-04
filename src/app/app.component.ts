@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
+import {ResultOfValidation} from './daily-openings/daily-openings.component';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ export class AppComponent {
 
   // businessHours: { [key: string]: OpeningRule[] } | undefined;
 
+  dailyOpenings: { [key: string]: ResultOfValidation[] };
 
   dayOfWeekKeysOrdered = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
 
@@ -23,6 +25,11 @@ export class AppComponent {
   }
 
   printDatas(): void {
+
+  }
+
+  newDataChange(eventNotification: Event): void {
+    const result = (eventNotification as ResultOfValidation);
 
   }
 }

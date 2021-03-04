@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 
 export interface ResultOfValidation {
@@ -13,7 +13,8 @@ export interface ResultOfValidation {
 })
 export class DailyOpeningsComponent implements OnInit {
 
-  @Output() newItemEvent = new EventEmitter<ResultOfValidation>();
+  @Output() dailyOpeningsValidatorEmitter = new EventEmitter<ResultOfValidation>();
+  @Input() day: string;
 
   singleDayForm = this.fb.group({
     openings: this.fb.array([
