@@ -27,6 +27,11 @@ export class DailyOpeningsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.singleDayForm.valueChanges.subscribe(
+    //   valueChanged => {
+    //     console.log('something changed');
+    //   }
+    // );
   }
 
   private generateIntervalRuleControls(): FormGroup {
@@ -58,4 +63,18 @@ export class DailyOpeningsComponent implements OnInit {
     console.log(value);
   }
 
+  // timeSlotCorrectFormat() {
+  //   for()
+  // }
+  //
+  // timeSlotsNotOverlapping() {
+  //
+  // }
+
+
+  formChanged(): void {
+
+  this.newItemEvent.emit(this.singleDayForm.value);
+  console.log('Something changed and form html notified');
+  }
 }

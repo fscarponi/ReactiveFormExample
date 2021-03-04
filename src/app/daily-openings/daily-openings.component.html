@@ -1,8 +1,7 @@
 <div *ngIf="singleDayForm">
-  <form [formGroup]="singleDayForm" (ngSubmit)="createjson(singleDayForm.value)">
+  <form [formGroup]="singleDayForm" (ngSubmit)="createjson(singleDayForm.value)" (change)="formChanged()">
     <div formArrayName="openings"
-         *ngFor="let opening of singleDayForm.get('openings')['controls']; let i = index;"
-    >
+         *ngFor="let opening of singleDayForm.get('openings')['controls']; let i = index;">
       <div [formGroupName]="i">
         <label>
           <input formControlName="fromHours" type="number" min="0" max="23" >
@@ -27,6 +26,6 @@
       </div>
 
     </div>
-    <button type="submit">OK</button>
+<!--    <button type="submit">OK</button>-->
   </form>
 </div>
