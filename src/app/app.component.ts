@@ -12,7 +12,7 @@ export class AppComponent {
 
   // businessHours: { [key: string]: OpeningRule[] } | undefined;
 
-  dailyOpenings: { [key: string]: ResultOfValidation[] };
+  dailyOpenings: { [key: string]: ResultOfValidation };
 
   dayOfWeekKeysOrdered = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
 
@@ -28,9 +28,15 @@ export class AppComponent {
 
   }
 
-  newDataChange(eventNotification: Event): void {
-    const result = (eventNotification as ResultOfValidation);
-
+  handleEvent(eventNotification: any): void {
+    console.log(eventNotification);
+    const result = eventNotification as ResultOfValidation;
+    if (result.error) {
+      console.log('giorno ' + result.day + ' campi non validi');
+    } else {
+      console.log('giorno ' + result.day + ' campi ok: ' + result.data);
+      this.dailyOpenings[result.day] = result;
+    }
   }
 }
 

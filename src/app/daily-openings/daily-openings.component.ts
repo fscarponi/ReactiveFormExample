@@ -2,6 +2,7 @@ import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 
 export interface ResultOfValidation {
+  day: string;
   error?: boolean;
   data?: string;
 }
@@ -13,7 +14,7 @@ export interface ResultOfValidation {
 })
 export class DailyOpeningsComponent implements OnInit {
 
-  @Output() dailyOpeningsValidatorEmitter = new EventEmitter<ResultOfValidation>();
+  @Output() openingsChange = new EventEmitter<ResultOfValidation>();
   @Input() day: string;
 
   singleDayForm = this.fb.group({
@@ -74,8 +75,23 @@ export class DailyOpeningsComponent implements OnInit {
 
 
   formChanged(): void {
-
-  this.newItemEvent.emit(this.singleDayForm.value);
-  console.log('Something changed and form html notified');
+    const randomBoolean = Math.random() < 0.5;
+    console.log('figlio ' + this.day + ' emetto evento!');
+    if (randomBoolean) {
+      this.openingsChange.emit(
+        {
+          error: true,
+          day: this.day
+        }
+      );
+    } else {
+      this.openingsChange.emit(
+        {
+          data: this.singleDayForm.value,
+          day: this.day
+        }
+      );
+    }
+    console.log('Something changed and form html notified');
   }
 }
