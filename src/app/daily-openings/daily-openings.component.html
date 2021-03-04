@@ -1,0 +1,32 @@
+<div *ngIf="singleDayForm">
+  <form [formGroup]="singleDayForm" (ngSubmit)="createjson(singleDayForm.value)">
+    <div formArrayName="openings"
+         *ngFor="let opening of singleDayForm.get('openings')['controls']; let i = index;"
+    >
+      <div [formGroupName]="i">
+        <label>
+          <input formControlName="fromHours" type="number" min="0" max="23" >
+        </label>
+        <label>
+          <input formControlName="fromMinutes" type="number" min="0" max="59" >
+        </label>
+        <label>
+          <input formControlName="toHours" type="number" min="0" max="23"  >
+        </label>
+        <label>
+          <input formControlName="toMinutes" type="number" min="0" max="59">
+        </label>
+        <label>
+          <input formControlName="takeAway" type="checkbox">
+        </label>
+        <label>
+          <input formControlName="delivery" type="checkbox">
+        </label>
+        <button *ngIf="i===0" (click)="moreOpenings()">ADD</button>
+        <button *ngIf="i!==0"(click)="lessOpenings(i)">REMOVE</button>
+      </div>
+
+    </div>
+    <button type="submit">OK</button>
+  </form>
+</div>
