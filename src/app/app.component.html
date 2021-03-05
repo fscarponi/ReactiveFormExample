@@ -1,5 +1,5 @@
 <div>
-  <div *ngFor="let day of dayOfWeekKeysOrdered">
+  <div *ngFor="let day of daysOfWeekKeysOrdered">
     <h1>{{day}}</h1>
     <app-daily-openings [day]="day" (openingsChange)="handleEvent($event)"></app-daily-openings>
     <br><br>
