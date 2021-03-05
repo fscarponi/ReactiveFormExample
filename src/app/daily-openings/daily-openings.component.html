@@ -23,6 +23,7 @@
         </label>
         <button *ngIf="i===0" (click)="moreOpenings()">ADD</button>
         <button *ngIf="i!==0"(click)="lessOpenings(i)">REMOVE</button>
+        <div *ngIf="opening.get('fromHours').hasError('min')">Errore</div>
       </div>
 
     </div>

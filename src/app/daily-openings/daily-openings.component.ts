@@ -1,5 +1,5 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 
 export interface ResultOfValidation {
   day: string;
@@ -14,19 +14,50 @@ export interface ResultOfValidation {
 })
 export class DailyOpeningsComponent implements OnInit {
 
-  @Output() openingsChange = new EventEmitter<ResultOfValidation>();
-  @Input() day: string;
-
-  singleDayForm = this.fb.group({
-    openings: this.fb.array([
-      this.generateIntervalRuleControls()
-    ])
-  });
-
   constructor(
     private fb: FormBuilder
   ) {
   }
+
+  @Output() openingsChange = new EventEmitter<ResultOfValidation>();
+  @Input() day: string;
+
+
+  singleDayForm = this.fb.group({
+    openings: this.fb.array([
+      this.generateIntervalRuleControls()
+    ], [DailyOpeningsComponent.timeSlotsNotOverlapping])
+  });
+
+
+  // bisogna mettere il validator sul form array
+  // sul form group al massimo posso metterci un controllo che le date vengano
+
+
+  private static timeSlotsNotOverlapping(formArray: FormArray): null | ValidationErrors {
+// Need to check if this works, theoretically it should
+    let foundErrors = false;
+    for (const opening of formArray.controls) {
+      for (const otherOpening of formArray.controls) {
+
+        const absoluteStartFirst: number = ((opening.get('fromHours').value) * 60) + (opening.get('fromMinutes').value);
+        const absoluteEndFirst: number = ((opening.get('toHours').value) * 60) + (opening.get('toMinutes').value);
+        const absoluteStartOther: number = ((otherOpening.get('fromHours').value) * 60) + (otherOpening.get('fromMinutes').value);
+        const absoluteEndOther: number = ((otherOpening.get('toHours').value) * 60) + (otherOpening.get('toMinutes').value);
+        if (this.overlapFunction(absoluteStartFirst, absoluteEndFirst, absoluteStartOther, absoluteEndOther)) {
+          opening.setErrors({overlapError: true});
+          foundErrors = true;
+        }
+      }
+    }
+    return (foundErrors ? {arrayError: true} : null);
+
+  }
+
+  private static overlapFunction(startFirst: number, endFirst: number, startSecond: number, endSecond: number): boolean {
+    return ((startFirst <= endSecond) && (startSecond <= endFirst));
+  }
+
 
   ngOnInit(): void {
     // this.singleDayForm.valueChanges.subscribe(
@@ -37,14 +68,16 @@ export class DailyOpeningsComponent implements OnInit {
   }
 
   private generateIntervalRuleControls(): FormGroup {
-    return this.fb.group({
-      fromHours: [10],
-      fromMinutes: [30],
-      toHours: [14],
-      toMinutes: [30],
+    const generatedForm = this.fb.group({
+      fromHours: [10, [Validators.min(0), Validators.max(23)]],
+      fromMinutes: [30, [Validators.min(0), Validators.max(59)]],
+      toHours: [14, [Validators.min(0), Validators.max(23)]],
+      toMinutes: [30, [Validators.min(0), Validators.max(59)]],
       takeAway: true,
       delivery: true
     });
+    // needs to chenge someth9ing generatedForm.setValidators(DailyOpeningsComponent.timeSlotsNotOverlapping);
+    return generatedForm;
   }
 
 
@@ -68,7 +101,9 @@ export class DailyOpeningsComponent implements OnInit {
   timeSlotCorrectFormat(): boolean {
     const openings = this.singleDayForm.get('openings') as FormArray;
     for (const opening of openings.controls) {
+
       const fromHours: number = opening.get('fromHours').value;
+
       const fromMinutes: number = opening.get('fromMinutes').value;
       const toHours: number = opening.get('toHours').value;
       const toMinutes: number = opening.get('toMinutes').value;
@@ -79,66 +114,27 @@ export class DailyOpeningsComponent implements OnInit {
     return true;
   }
 
-  overlapFunction(startFirst: number, endFirst: number, startSecond: number, endSecond: number): boolean {
-    return ((startFirst <= endSecond) && (startSecond <= endFirst));
-  }
-
   /*IN TEORIA FUNZIONA BISOGNA FINIRE DI TESTARLO */
-  timeSlotsNotOverlapping(): boolean {
-    const openings = this.singleDayForm.get('openings') as FormArray;
-    if (openings.controls.length === 1) {
-      return false;
-    }
-    let i = 0;
-    for (const opening of openings.controls) {
-
-      const fromHours: number = opening.get('fromHours').value;
-      const fromMinutes: number = opening.get('fromMinutes').value;
-      const toHours: number = opening.get('toHours').value;
-      const toMinutes: number = opening.get('toMinutes').value;
-      const absoluteMinuteFrom: number = ((fromHours * 60) + fromMinutes);
-      const absoluteMinuteTo: number = ((toHours * 60) + toMinutes);
-      const openings2 = this.singleDayForm.get('openings') as FormArray;
-      let j = 0;
-      for (const opening2 of openings2.controls) {
-        if (i !== j) {
-          const fromHours2: number = opening2.get('fromHours').value;
-          const fromMinutes2: number = opening2.get('fromMinutes').value;
-          const toHours2: number = opening2.get('toHours').value;
-          const toMinutes2: number = opening2.get('toMinutes').value;
-          const absoluteMinuteFrom2: number = ((fromHours2 * 60) + fromMinutes2);
-          const absoluteMinuteTo2: number = ((toHours2 * 60) + toMinutes2);
-          if (this.overlapFunction(absoluteMinuteFrom, absoluteMinuteTo, absoluteMinuteFrom2, absoluteMinuteTo2) === true) {
-            console.log('it does overlap');
-          } else {
-            console.log('they dont overlap');
-          }
-        }
-        j++;
-      }
-      i++;
-    }
-  }
 
 
   formChanged(): void {
     console.log(this.timeSlotCorrectFormat());
-    this.timeSlotsNotOverlapping();
-    //   const randomBoolean = Math.random() < 0.5;
-    //   if (randomBoolean) {
-    //     this.openingsChange.emit(
-    //       {
-    //         error: true,
-    //         day: this.day
-    //       }
-    //     );
-    //   } else {
-    //     this.openingsChange.emit(
-    //       {
-    //         data: this.singleDayForm.value,
-    //         day: this.day
-    //       }
-    //     );
-    //   }
+    // this.timeSlotsNotOverlapping();
+    // const randomBoolean = Math.random() < 0.5;
+    if (this.singleDayForm.valid) {
+      this.openingsChange.emit(
+        {
+          error: true,
+          day: this.day
+        }
+      );
+    } else {
+      this.openingsChange.emit(
+        {
+          data: this.singleDayForm.value,
+          day: this.day
+        }
+      );
+    }
   }
 }
