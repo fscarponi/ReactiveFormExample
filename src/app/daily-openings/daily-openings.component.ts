@@ -37,25 +37,46 @@ export class DailyOpeningsComponent implements OnInit {
   private static timeSlotsNotOverlapping(formArray: FormArray): null | ValidationErrors {
 // Need to check if this works, theoretically it should
     let foundErrors = false;
+    let i = 0;
     for (const opening of formArray.controls) {
+      let j = 0;
       for (const otherOpening of formArray.controls) {
-
-        const absoluteStartFirst: number = ((opening.get('fromHours').value) * 60) + (opening.get('fromMinutes').value);
-        const absoluteEndFirst: number = ((opening.get('toHours').value) * 60) + (opening.get('toMinutes').value);
-        const absoluteStartOther: number = ((otherOpening.get('fromHours').value) * 60) + (otherOpening.get('fromMinutes').value);
-        const absoluteEndOther: number = ((otherOpening.get('toHours').value) * 60) + (otherOpening.get('toMinutes').value);
-        if (this.overlapFunction(absoluteStartFirst, absoluteEndFirst, absoluteStartOther, absoluteEndOther)) {
-          opening.setErrors({overlapError: true});
-          foundErrors = true;
+        if (i !== j) {
+          const absoluteStartFirst: number = ((opening.get('fromHours').value) * 60) + (opening.get('fromMinutes').value);
+          const absoluteEndFirst: number = ((opening.get('toHours').value) * 60) + (opening.get('toMinutes').value);
+          const absoluteStartOther: number = ((otherOpening.get('fromHours').value) * 60) + (otherOpening.get('fromMinutes').value);
+          const absoluteEndOther: number = ((otherOpening.get('toHours').value) * 60) + (otherOpening.get('toMinutes').value);
+          // console.log('1:' + absoluteStartFirst + ' 2:' + absoluteEndFirst + ' 3:' + absoluteStartOther + ' 4:' + absoluteEndOther);
+          if (DailyOpeningsComponent.overlapFunction(absoluteStartFirst, absoluteEndFirst, absoluteStartOther, absoluteEndOther)) {
+            opening.setErrors({overlapError: true});
+            foundErrors = true;
+          } else {
+            opening.setErrors(null);
+          }
         }
+        j++;
       }
+      i++;
+      console.log(((opening.get('fromHours').value)) + ' ' + (opening.get('fromMinutes').value) + ' ' + ((opening.get('toHours').value)) + ' ' + (opening.get('toMinutes').value) + ' errors: ' + opening.hasError('overlapError'));
+
     }
     return (foundErrors ? {arrayError: true} : null);
 
   }
 
   private static overlapFunction(startFirst: number, endFirst: number, startSecond: number, endSecond: number): boolean {
-    return ((startFirst <= endSecond) && (startSecond <= endFirst));
+    if (startFirst <= startSecond && startSecond <= endFirst) {
+      return true;
+    } // b starts in a
+    if (startFirst <= endSecond && endSecond <= endFirst) {
+      return true;
+    } // b ends in a
+    if (startSecond < startFirst && endFirst < endSecond) {
+      return true;
+    } // a in b
+    return false;
+
+
   }
 
 
@@ -114,27 +135,27 @@ export class DailyOpeningsComponent implements OnInit {
     return true;
   }
 
-  /*IN TEORIA FUNZIONA BISOGNA FINIRE DI TESTARLO */
-
-
   formChanged(): void {
-    console.log(this.timeSlotCorrectFormat());
+
+    // console.log(this.singleDayForm.get('openings').errors);
+
+
     // this.timeSlotsNotOverlapping();
     // const randomBoolean = Math.random() < 0.5;
-    if (this.singleDayForm.valid) {
-      this.openingsChange.emit(
-        {
-          error: true,
-          day: this.day
-        }
-      );
-    } else {
-      this.openingsChange.emit(
-        {
-          data: this.singleDayForm.value,
-          day: this.day
-        }
-      );
-    }
+    // if (this.singleDayForm.valid) {
+    //   this.openingsChange.emit(
+    //     {
+    //       error: true,
+    //       day: this.day
+    //     }
+    //   );
+    // } else {
+    //   this.openingsChange.emit(
+    //     {
+    //       data: this.singleDayForm.value,
+    //       day: this.day
+    //     }
+    //   );
+    // }
   }
 }
